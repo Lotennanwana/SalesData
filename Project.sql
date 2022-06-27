@@ -173,10 +173,10 @@ ADDITIONAL ANALYSIS
 --- Most Productive Employees. Which employee has the highest sales (amount & number of customers)?
 --Employees with highest customers
 SELECT firstName || ' ' || lastName AS employee_name, (
-														SELECT COUNT(*)
-														  FROM customers AS c
-														 WHERE c.salesRepEmployeeNumber = e.employeeNumber
-														) AS number_of_customers
+						SELECT COUNT(*)
+						  FROM customers AS c
+						 WHERE c.salesRepEmployeeNumber = e.employeeNumber
+						) AS number_of_customers
   FROM employees AS e
  GROUP BY employee_name
  ORDER BY number_of_customers DESC
@@ -193,6 +193,7 @@ total_order_by_customers AS
 							 WHERE o.orderNumber = od.orderNumber
 						 ) AS amount_total_order
 			 FROM orders AS o 
+-- 		I added this GROUP BY line of code and I realized that it was unnecessary although, the code ran well.
 -- 		 GROUP BY o.orderNumber, o.customerNumber
 		 ORDER BY amount_total_order DESC
 			 
