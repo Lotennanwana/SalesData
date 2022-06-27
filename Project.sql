@@ -55,7 +55,7 @@ Next, we need to know which product(s) should we purchase more/less of. We will 
 */
 ---Extracting Products with Low Stock
 SELECT p.productName, p.productCode, 
-	   CAST(SUM(o.quantityOrdered) AS REAL)/p.quantityInStock AS low_stock,
+	   CAST(SUM(o.quantityOrdered) AS REAL)/p.quantityInStock AS low_stock
   FROM products AS p
 INNER JOIN orderdetails AS o
 USING(productCode)
@@ -65,7 +65,7 @@ LIMIT 10;
 
 --- Extracting Products Performance to determine high performing (high sales) customers
 SELECT p.productName, 
-		p.productCode SUM(o.quantityOrdered * o.priceEach) AS product_performance
+		p.productCode, SUM(o.quantityOrdered * o.priceEach) AS product_performance
 FROM products AS p
 INNER JOIN orderdetails AS o
 USING(productCode)
@@ -168,4 +168,17 @@ SELECT AVG(total_amount) AS lft
   FROM amount_generated;
 
 
-
+/*
+ADDITIONAL ANALYSIS
+*/
+--- Most Productive Employees. Which employee has the highest sales (amount & number of customers)?
+--Employees with highest customers
+SELECT firstName || ' ' || lastName AS employee_name, (
+							SELECT COUNT(*)
+							  FROM customers AS c
+							 WHERE c.salesRepEmployeeNumber = e.employeeNumber
+							) AS number_of_customers
+  FROM employees AS e
+ GROUP BY employee_name
+ ORDER BY number_of_customers DESC
+ LIMIT 10;
