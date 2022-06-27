@@ -186,25 +186,25 @@ SELECT firstName || ' ' || lastName AS employee_name, (
 
 WITH
 total_order_by_customers AS 
-							(
-						   SELECT o.orderNumber, o.customerNumber, (
-															SELECT SUM(od.quantityOrdered * od.priceEach)
-															  FROM orderdetails AS od
-															 WHERE o.orderNumber = od.orderNumber
-														 ) AS amount_total_order
-							 FROM orders AS o 
-						 GROUP BY o.orderNumber, o.customerNumber
-						 ORDER BY amount_total_order DESC
+			(
+		   SELECT o.orderNumber, o.customerNumber, (
+							SELECT SUM(od.quantityOrdered * od.priceEach)
+							  FROM orderdetails AS od
+							 WHERE o.orderNumber = od.orderNumber
+						 ) AS amount_total_order
+			 FROM orders AS o 
+		 GROUP BY o.orderNumber, o.customerNumber
+		 ORDER BY amount_total_order DESC
 			 
 ),
 customers_total_amount AS 
 		(
 
-				SELECT c.customerNumber, c.customerName, c.salesRepEmployeeNumber, SUM(ood.amount_total_order) AS amount_total
-				  FROM customers AS c
-				 INNER JOIN total_order_by_customers AS ood
-					ON ood.customerNumber = c.customerNumber
-				GROUP BY c.customerNumber, c.customerName
+		SELECT c.customerNumber, c.customerName, c.salesRepEmployeeNumber, SUM(ood.amount_total_order) AS amount_total
+		  FROM customers AS c
+		 INNER JOIN total_order_by_customers AS ood
+			ON ood.customerNumber = c.customerNumber
+		GROUP BY c.customerNumber, c.customerName
 
 )
 
