@@ -193,7 +193,7 @@ total_order_by_customers AS
 							 WHERE o.orderNumber = od.orderNumber
 						 ) AS amount_total_order
 			 FROM orders AS o 
-		 GROUP BY o.orderNumber, o.customerNumber
+-- 		 GROUP BY o.orderNumber, o.customerNumber
 		 ORDER BY amount_total_order DESC
 			 
 ),
